@@ -19,7 +19,6 @@ const EditEntry = (entry = {}) => {
   const newEntry = {
     date: timestampFromDate(new Date()),
     country: {
-      label: 'Select country',
     },
     body: '',
   };
@@ -27,7 +26,7 @@ const EditEntry = (entry = {}) => {
   const countriesList = countryList().getData();
 
   let [values, setValues] = isEdit ? useState(entry) : useState(newEntry);
-  const submitDisabled = !values.body.length;
+  const submitDisabled = !values.body.length || !Object.keys(values.country).length;
 
   const handleChange = event => {
     const { name, value } = event.target;
@@ -78,12 +77,15 @@ const EditEntry = (entry = {}) => {
           onChange={handleDate}
           dateFormat="MMMM d, yyyy"
           disabled={formDisabled}
+          required
         />
         <Select
           options={countriesList}
           value={values.country}
+          placeholder='Select country'
           onChange={handleCountry}
           theme={null}
+          required
         />
       </aside>
       <textarea
@@ -91,6 +93,7 @@ const EditEntry = (entry = {}) => {
         value={values.body}
         onChange={handleChange}
         disabled={formDisabled}
+        required
       />
       <button type="submit" disabled={submitDisabled}>
         {isEdit ? 'Save Entry' : 'Add Entry'}

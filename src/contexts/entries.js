@@ -1,16 +1,8 @@
 import React, { useReducer, createContext } from 'react';
 import entriesReducer from '../reducers/entries';
+import { restoreEntries } from '../utils';
 
 const EntriesContext = createContext();
-
-const restoreEntries = () => {
-  const item = localStorage.getItem('fb');
-  let result;
-  if (item) {
-    result = JSON.parse(item);
-  }
-  return result || [];
-};
 
 const initialState = {
   entries: restoreEntries(),

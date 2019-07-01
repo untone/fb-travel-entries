@@ -16,17 +16,19 @@ const ViewEntry = ({ id, date, country, body }) => {
   };
 
   const handleRemove = () => {
-    dispatch({
-      type: REMOVE_ENTRY,
-      payload: { id },
-    });
+    if (confirm('Remove item?')) {
+      dispatch({
+        type: REMOVE_ENTRY,
+        payload: { id },
+      });
+    }
   };
 
   return (
     <Fragment>
       <header>
         <h2>
-          Post <b>#{id}</b> at <b>{dateFromTimestamp(date)}</b> being in: 
+          Post <b>#{id ? id : ''}</b> at <b>{date ? dateFromTimestamp(date) : ''}</b> being in: 
           <b>{country ? `${country.label}` : ''}</b>
           {country ? (
             <ReactCountryFlag code={country.value.toLowerCase()} svg />

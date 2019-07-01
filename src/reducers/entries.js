@@ -1,11 +1,9 @@
+import { saveEntries } from '../utils';
+
 export const EDIT_ENTRY = 'EDIT_ENTRY';
 export const VIEW_ENTRY = 'VIEW_ENTRY';
 export const SAVE_ENTRY = 'SAVE_ENTRY';
 export const REMOVE_ENTRY = 'REMOVE_ENTRY';
-
-const saveItems = entries => {
-  localStorage.setItem('fb', JSON.stringify(entries));
-};
 
 const entriesReducer = (state, { type, payload }) => {
   switch (type) {
@@ -25,12 +23,13 @@ const entriesReducer = (state, { type, payload }) => {
       } else {
         entries = [...state.entries.slice(0), payload];
       }
-      saveItems(entries);
+      saveEntries(entries);
       const editId = null;
       return { ...state, entries, editId };
     }
     case REMOVE_ENTRY: {
       let entries = state.entries.filter(entry => entry.id !== payload.id);
+      saveEntries(entries);
       return { ...state, entries };
     }
     default:
